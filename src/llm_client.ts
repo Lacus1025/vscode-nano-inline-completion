@@ -37,9 +37,9 @@ async function getOllamaNativeCompletion(prefix: string, suffix: string): Promis
   if (suffix) {
     body = {
       model,
-      prompt: `<fim_prefix>${prefix}<fim_suffix>${suffix}<fim_middle>`,
+      prompt: `<|fim_prefix|>${prefix}<|fim_suffix|>${suffix}<|fim_middle|>`,
       raw: true,
-      options: { temperature: 0, num_predict: maxTokens, stop: ['<|im_end|>', '<|endoftext|>'] },
+      options: { temperature: 0, num_predict: maxTokens, stop: ['<|endoftext|>', '<|fim_middle|>'] },
       stream: false,
     };
   } else {
@@ -47,7 +47,7 @@ async function getOllamaNativeCompletion(prefix: string, suffix: string): Promis
       model,
       prompt: prefix,
       raw: true,
-      options: { temperature: 0, num_predict: maxTokens, stop: ['<|im_end|>', '<|endoftext|>'] },
+      options: { temperature: 0, num_predict: maxTokens, stop: ['<|endoftext|>', '<|fim_middle|>'] },
       stream: false,
     };
   }

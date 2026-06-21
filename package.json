@@ -3,7 +3,7 @@
 	"displayName": "nano inline completion",
 	"description": "a sample vscode extension to demonstrate the inline completion additions API proposal",
 	"icon": "icon.png",
-	"version": "1.1.1",
+	"version": "1.2.0",
 	"publisher": "Lacus1025",
 	"repository": "https://github.com/Lacus1025/vscode-nano-inline-completion",
 	"engines": {
@@ -56,6 +56,11 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Remove trailing } from model output to prevent closing the brace when completion is incomplete"
+				},
+				"nanoInlineCompletion.stripCodeFences": {
+					"type": "boolean",
+					"default": true,
+					"description": "Strip markdown code fences (\\`\\`\\`) and all content after them from model output"
 				},
 				"nanoInlineCompletion.ignoreFileExtensions": {
 					"type": "array",

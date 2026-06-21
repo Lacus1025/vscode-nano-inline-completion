@@ -7,8 +7,16 @@ let isPending = false;
 let idleTimer: ReturnType<typeof setTimeout> | undefined;
 let idleTriggerRequested = false;
 
+const waitingDecoration = vscode.window.createTextEditorDecorationType({
+	after: {
+		contentText: ' Generating...',
+		color: new vscode.ThemeColor('editorGhostText.foreground'),
+	},
+});
+
 export function activate(_context: vscode.ExtensionContext) {
 	console.log('nano_inline_completion started');
+	_context.subscriptions.push(waitingDecoration);
 
 	const provider: vscode.InlineCompletionItemProvider = {
 		async provideInlineCompletionItems(document, position, _context, _token) {
@@ -35,14 +43,26 @@ export function activate(_context: vscode.ExtensionContext) {
 				const parts = buildPrompt(document, position);
 				console.log('nano: request sent', JSON.stringify(parts));
 
+				const activeEditor = vscode.window.activeTextEditor;
+				if (activeEditor) {
+					const cursorLine = activeEditor.document.lineAt(position.line);
+					activeEditor.setDecorations(waitingDecoration, [cursorLine.range]);
+				}
+
 				const completion = await getCompletion(parts);
 				if (!completion || _token.isCancellationRequested) {
 					return;
 				}
 
 				let text = completion;
+				if (config.get<boolean>('stripCodeFences', true)) {
+					const idx = text.indexOf('```');
+					if (idx !== -1) {
+						text = text.slice(0, idx);
+					}
+				}
 				if (config.get<boolean>('trimTrailingBrace', true)) {
-					text = completion.replace(/\s*\}\s*$/, '');
+					text = text.replace(/\s*\}\s*$/, '');
 				}
 
 				return {
@@ -55,6 +75,10 @@ export function activate(_context: vscode.ExtensionContext) {
 				};
 			} finally {
 				isPending = false;
+				const editor = vscode.window.activeTextEditor;
+				if (editor) {
+					editor.setDecorations(waitingDecoration, []);
+				}
 			}
 		},
 
