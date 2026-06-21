@@ -1,14 +1,11 @@
 {
-	"enabledApiProposals": [
-		"inlineCompletionsAdditions"
-	],
 	"name": "vscode-nano-inline-completion",
-	"displayName": "nano-inline-completion",
+	"displayName": "nano inline completion",
 	"description": "a sample vscode extension to demonstrate the inline completion additions API proposal",
 	"icon": "icon.png",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"publisher": "Lacus1025",
-	"repository": "https://github.com/Lacus1025/vscode_nano_inline_completion",
+	"repository": "https://github.com/Lacus1025/vscode-nano-inline-completion",
 	"engines": {
 		"vscode": "^1.100.0"
 	},
