@@ -58,9 +58,9 @@ export function activate(_context: vscode.ExtensionContext) {
 			}
 		},
 
-		handleDidShowCompletionItem(_completionItem: vscode.InlineCompletionItem): void {
-			console.log('inline completion item shown');
-		},
+		// handleDidShowCompletionItem(_completionItem: vscode.InlineCompletionItem): void {
+		// 	console.log('inline completion item shown');
+		// },
 	};
 
 	_context.subscriptions.push(
