@@ -1,0 +1,82 @@
+{
+	"enabledApiProposals": [
+		"inlineCompletionsAdditions"
+	],
+	"name": "vscode-nano-inline-completion",
+	"displayName": "nano-inline-completion",
+	"description": "a sample vscode extension to demonstrate the inline completion additions API proposal",
+	"icon": "icon.png",
+	"version": "1.0.1",
+	"publisher": "Lacus1025",
+	"repository": "https://github.com/Lacus1025/vscode_nano_inline_completion",
+	"engines": {
+		"vscode": "^1.100.0"
+	},
+	"categories": [
+		"AI",
+		"Other"
+	],
+	"activationEvents": [
+		"*"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"configuration": {
+			"title": "Nano Inline Completion",
+			"properties": {
+				"nanoInlineCompletion.apiKey": {
+					"type": "string",
+					"default": "",
+					"description": "API Key (not needed for Ollama)"
+				},
+				"nanoInlineCompletion.baseURL": {
+					"type": "string",
+					"default": "http://localhost:11434/v1",
+					"description": "API base URL (Ollama: http://localhost:11434/v1)"
+				},
+				"nanoInlineCompletion.model": {
+					"type": "string",
+					"default": "qwen2.5-coder",
+					"description": "Model name (e.g. qwen2.5-coder, codellama, deepseek-coder)"
+				},
+				"nanoInlineCompletion.maxTokens": {
+					"type": "number",
+					"default": 64,
+					"description": "Max output tokens per completion"
+				},
+				"nanoInlineCompletion.apiBackend": {
+					"type": "string",
+					"enum": ["openai", "ollama-native"],
+					"default": "ollama-native",
+					"description": "API backend: 'openai' for OpenAI-compatible chat API, 'ollama-native' for Ollama /api/generate with FIM tokens"
+				},
+				"nanoInlineCompletion.idleDelay": {
+					"type": "number",
+					"default": 2000,
+					"description": "Delay (ms) after typing stops before auto-triggering completion"
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"lint": "eslint",
+		"watch": "tsc -watch -p ./",
+		"download-api": "dts dev",
+		"postinstall": "npm run download-api"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.13.0",
+		"@stylistic/eslint-plugin": "^2.9.0",
+		"@types/node": "^22",
+		"@types/vscode": "^1.100.0",
+		"@vscode/dts": "^0.4.0",
+		"eslint": "^9.13.0",
+		"typescript": "^5.9.2",
+		"typescript-eslint": "^8.39.0"
+	},
+	"dependencies": {
+		"openai": "^6.44.0"
+	}
+}
