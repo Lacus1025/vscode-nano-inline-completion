@@ -86,6 +86,7 @@ export async function getCompletion(parts: PromptParts): Promise<string> {
 
     return await getOpenAIChatCompletion(promptParts.join('\n'));
   } catch (err) {
+    vscode.window.showErrorMessage('LLM 请求失败: ' + (err instanceof Error ? err.message : String(err)));
     console.error('LLM 请求失败:', err);
     return '';
   }

@@ -6,7 +6,7 @@
 	"displayName": "nano-inline-completion",
 	"description": "a sample vscode extension to demonstrate the inline completion additions API proposal",
 	"icon": "icon.png",
-	"version": "1.0.1",
+	"version": "1.1.0",
 	"publisher": "Lacus1025",
 	"repository": "https://github.com/Lacus1025/vscode_nano_inline_completion",
 	"engines": {
@@ -54,6 +54,19 @@
 					"type": "number",
 					"default": 2000,
 					"description": "Delay (ms) after typing stops before auto-triggering completion"
+				},
+				"nanoInlineCompletion.trimTrailingBrace": {
+					"type": "boolean",
+					"default": true,
+					"description": "Remove trailing } from model output to prevent closing the brace when completion is incomplete"
+				},
+				"nanoInlineCompletion.ignoreFileExtensions": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"default": [],
+					"description": "File extensions to ignore (e.g. [\".md\", \".txt\"]). Completions will not be triggered in these file types."
 				}
 			}
 		}

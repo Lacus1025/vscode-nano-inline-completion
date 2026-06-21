@@ -23,6 +23,15 @@ export function activate(_context: vscode.ExtensionContext) {
 			isPending = true;
 
 			try {
+				const config = vscode.workspace.getConfiguration('nanoInlineCompletion');
+				const ignored = config.get<string[]>('ignoreFileExtensions', []);
+				if (ignored.length > 0) {
+					const fileName = document.fileName;
+					if (ignored.some(ext => fileName.endsWith(ext.startsWith('.') ? ext : '.' + ext))) {
+						return;
+					}
+				}
+
 				const parts = buildPrompt(document, position);
 				console.log('nano: request sent', JSON.stringify(parts));
 
@@ -31,11 +40,16 @@ export function activate(_context: vscode.ExtensionContext) {
 					return;
 				}
 
+				let text = completion;
+				if (config.get<boolean>('trimTrailingBrace', true)) {
+					text = completion.replace(/\s*\}\s*$/, '');
+				}
+
 				return {
 					items: [{
-						insertText: completion,
+						insertText: text,
 						range: new Range(position, position),
-						completeBracketPairs: true,
+						// completeBracketPairs: true,
 					}],
 					commands: [],
 				};
